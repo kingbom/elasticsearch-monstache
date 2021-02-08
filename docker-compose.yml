@@ -11,7 +11,8 @@ services:
       - ES_JAVA_OPTS=-Xms2048m -Xmx2048m
       - discovery.type=single-node
     healthcheck:
-      test: "wget -q -O - http://localhost:9200/_cat/health"
+      test: "wget -q -O - http://localhost:9200/_y
+      cat/health"
       interval: 1s
       timeout: 30s
       retries: 300
@@ -58,14 +59,14 @@ services:
     networks:
       - monstache-network
 
-   mongo1:
+  mongo1:
     restart: always
-    image: mongo:latest
+    image: mongo:4.0.22
     container_name: mongo1
     expose:
       - "27017"
     ports:
-      - "27018:27017"
+      - "27017:27017"
     volumes:
       - ./mongodb/db1:/data/db
     command: mongod --replSet rp0
@@ -74,12 +75,12 @@ services:
 
   mongo2:
     restart: always
-    image: mongo:latest
+    image: mongo:4.0.22
     container_name: mongo2
     expose:
       - "27017"
     ports:
-      - "27019:27017"
+      - "27018:27017"
     volumes:
       - ./mongodb/db2:/data/db
     command: mongod --replSet rp0
@@ -90,12 +91,12 @@ services:
 
   mongo3:
     restart: always
-    image: mongo:latest
+    image: mongo:4.0.22
     container_name: mongo3
     expose:
       - "27017"
     ports:
-      - "27020:27017"
+      - "27019:27017"
     volumes:
       - ./mongodb/db3:/data/db
     command: mongod --replSet rp0
@@ -103,13 +104,5 @@ services:
       - mongo1
     networks:
       - monstache-network
-
-  mongosetup:
-    image: "setup-rspl:latest"
-    depends_on:
-      - mongo1
-    networks:
-      - monstache-network
-
 networks:
   monstache-network:
